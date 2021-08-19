@@ -22,3 +22,4 @@ jobs:
     - name: Build documentation
       run: |
         sphinx-build docs build/html
+
