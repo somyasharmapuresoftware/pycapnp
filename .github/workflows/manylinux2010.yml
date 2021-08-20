@@ -16,6 +16,9 @@ jobs:
     # NOTE: Cannot use checkout@v2 as it requires a newer version glibc, but that's not possible with manylinux without a secondary sysroot
     - uses: actions/checkout@v1
     # capnproto build requires cmake 3+, CentOS 6 (manylinux2010) defaults to cmake 2.8
+    - name: Set up QEMU
+      id: qemu
+      uses: docker/setup-qemu-action@v1
     - name: Install dependencies
       run: |
         yum install -y cmake3 ninja-build
