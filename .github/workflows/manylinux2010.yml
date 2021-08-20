@@ -10,7 +10,7 @@ jobs:
     strategy:
       matrix:
           python-version: ['cp37-cp37m', 'cp38-cp38', 'cp39-cp39']
-          container-image: ['quay.io/pypa/manylinux2014_aarch64']
+          container-image: ['quay.io/pypa/manylinux2010_x86_64']
 
     steps:
     # NOTE: Cannot use checkout@v2 as it requires a newer version glibc, but that's not possible with manylinux without a secondary sysroot
