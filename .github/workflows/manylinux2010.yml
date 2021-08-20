@@ -58,4 +58,27 @@ jobs:
       - name: Set up QEMU
         id: qemu
         uses: docker/setup-qemu-action@v1
+        
+      - name: Install dependencies
+        run: |
+          yum install -y cmake3 ninja-build
+          ln -sf /usr/bin/cmake3 /usr/local/bin/cmake
+          ln -s /usr/bin/ninja-build /usr/local/bin/ninja
+          /opt/python/${{ matrix.python-version }}/bin/python -m pip install -r requirements.txt
+          /opt/python/${{ matrix.python-version }}/bin/python -m pip install auditwheel        
+        
+      - name: Build pycapnp and install
+        env:
+          LDFLAGS: -Wl,--no-as-needed -lrt
+        run: |
+          /opt/python/${{ matrix.python-version }}/bin/python setup.py build
+      - name: Packaging
+        run: |
+          /opt/python/${{ matrix.python-version }}/bin/python setup.py bdist_wheel
+          /opt/python/${{ matrix.python-version }}/bin/python setup.py sdist
+          /opt/python/${{ matrix.python-version }}/bin/auditwheel repair dist/*linux_*.whl
+      - uses: actions/upload-artifact@v1.0.0
+        with:
+          name: manylinux2014_dist
+          path: wheelhouse
       
