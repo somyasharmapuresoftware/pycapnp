@@ -47,8 +47,11 @@ jobs:
             matrix:
               python-version: ['cp37-cp37m', 'cp38-cp38', 'cp39-cp39']
               arch: [aarch64]
-              container-image: ['quay.io/pypa/manylinux2014_aarch64']
-              
+      
+      env:
+        py: /opt/python/${{ matrix.pyver }}/bin/python
+        img: quay.io/pypa/manylinux2014_${{ matrix.arch }}
+      
       steps:
     # NOTE: Cannot use checkout@v2 as it requires a newer version glibc, but that's not possible with manylinux without a secondary sysroot
       - uses: actions/checkout@v1
