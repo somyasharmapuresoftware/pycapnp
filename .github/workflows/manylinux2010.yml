@@ -16,9 +16,7 @@ jobs:
     # NOTE: Cannot use checkout@v2 as it requires a newer version glibc, but that's not possible with manylinux without a secondary sysroot
     - uses: actions/checkout@v1
     # capnproto build requires cmake 3+, CentOS 6 (manylinux2010) defaults to cmake 2.8
-    - name: Set up QEMU
-      id: qemu
-      uses: docker/setup-qemu-action@v1
+    
     - name: Install dependencies
       run: |
         yum install -y cmake3 ninja-build
@@ -40,3 +38,21 @@ jobs:
       with:
         name: manylinux2010_dist
         path: wheelhouse
+
+  manylinux2014:
+      name: "Test ${{ matrix.pyver }} aarch64"
+      runs-on: ubuntu-latest
+      container: ${{ matrix.container-image }}
+      strategy:
+            matrix:
+              python-version: ['cp37-cp37m', 'cp38-cp38', 'cp39-cp39']
+              arch: [aarch64]
+              container-image: ['quay.io/pypa/manylinux2014_aarch64']
+              
+      steps:
+    # NOTE: Cannot use checkout@v2 as it requires a newer version glibc, but that's not possible with manylinux without a secondary sysroot
+      - uses: actions/checkout@v1
+      - name: Set up QEMU
+        id: qemu
+        uses: docker/setup-qemu-action@v1
+      
