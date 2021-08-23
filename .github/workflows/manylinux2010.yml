@@ -86,7 +86,7 @@ jobs:
           ${{ env.img }} \
           bash -exc '${{ env.py }} -m pip install virtualenv && ${{ env.py }} -m venv .env && \
           source .env/bin/activate && \
-          yum install pkgconfig && \
+          pip install pkgconfig && \
           /opt/python/${{ matrix.python-version }}/bin/python setup.py build && \
           deactivate'
           
