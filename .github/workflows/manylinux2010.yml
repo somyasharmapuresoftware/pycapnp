@@ -67,7 +67,6 @@ jobs:
           source .env/bin/activate && \
           yum update && \
           yum install wget && \
-          yum load-transaction /tmp/yum_save_tx.2021-08-23.04-04.YFITwn.yumtx && \
           deactivate'
 
       
