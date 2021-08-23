@@ -67,6 +67,11 @@ jobs:
           source .env/bin/activate && \
           yum update && \
           yum install -y wget && \
+          tar zxvf cmake-3.*
+          cd cmake-3.*
+          ./bootstrap --prefix=/usr/bin/cmake3
+          make -j$(nproc)
+          make install
           deactivate'
 
       
