@@ -84,9 +84,8 @@ jobs:
         run: |
           docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
           ${{ env.img }} \
-          bash -exc '${{ env.py }} -m pip install virtualenv && ${{ env.py }} -m venv .env && \
+          bash -exc '${{ env.py }} && \
           source .env/bin/activate && \
-          pip install pkgconfig lxml>=3.0 && \
           /opt/python/${{ matrix.python-version }}/bin/python setup.py build && \
           deactivate'
           
@@ -94,7 +93,7 @@ jobs:
         run: |
           docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
           ${{ env.img }} \
-          bash -exc '${{ env.py }} -m pip install virtualenv && ${{ env.py }} -m venv .env && \
+          bash -exc '${{ env.py }} && \
           source .env/bin/activate && \
           /opt/python/${{ matrix.python-version }}/bin/python setup.py bdist_wheel && \
           /opt/python/${{ matrix.python-version }}/bin/python setup.py sdist && \
