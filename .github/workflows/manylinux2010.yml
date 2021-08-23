@@ -66,7 +66,8 @@ jobs:
           bash -exc '${{ env.py }} -m pip install virtualenv && ${{ env.py }} -m venv .env && \
           source .env/bin/activate && \
           yum update && \
-          yum install -y epel-release
+          yum install -y wget && \
+          yum install -y epel-release && \
           wget http://download-ib01.fedoraproject.org/pub/epel/7/aarch64/ && \
           rpm -Uvh epel-release*rpm && \
           yum install cmake3 && \
