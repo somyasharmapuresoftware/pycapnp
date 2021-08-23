@@ -66,11 +66,6 @@ jobs:
           bash -exc '${{ env.py }} -m pip install virtualenv && ${{ env.py }} -m venv .env && \
           source .env/bin/activate && \
           yum update && \
-          yum install -y cmake3 ninja-build && \
-          ln -sf /usr/bin/cmake3 /usr/local/bin/cmake && \
-          ln -s /usr/bin/ninja-build /usr/local/bin/ninja && \
-          /opt/python/${{ matrix.python-version }}/bin/python -m pip install -r requirements.txt && \
-          /opt/python/${{ matrix.python-version }}/bin/python -m pip install auditwheel && \
           deactivate'
 
       
