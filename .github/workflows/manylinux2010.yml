@@ -66,13 +66,10 @@ jobs:
           bash -exc '${{ env.py }} -m pip install virtualenv && ${{ env.py }} -m venv .env && \
           source .env/bin/activate && \
           yum update && \
-          yum install -y wget && \
-          wget https://cmake.org/files/v3.12/cmake-3.12.3.tar.gz
-          tar zxvf cmake-3.*
-          cd cmake-3.*
-          ./bootstrap --prefix=/usr/bin/cmake3
-          make -j$(nproc)
-          make install
+          yum install -y epel-release
+          wget http://download-ib01.fedoraproject.org/pub/epel/7/aarch64/ && \
+          rpm -Uvh epel-release*rpm && \
+          yum install cmake3 && \
           deactivate'
 
       
