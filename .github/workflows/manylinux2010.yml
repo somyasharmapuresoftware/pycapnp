@@ -69,8 +69,6 @@ jobs:
           yum install -y wget && \
           yum install -y epel-release && \
           wget http://download-ib01.fedoraproject.org/pub/epel/7/aarch64/ && \
-          rpm -Uvh epel-release*rpm && \
-          yum install cmake3 && \
           deactivate'
 
       
