@@ -29,6 +29,7 @@ jobs:
         LDFLAGS: -Wl,--no-as-needed -lrt
       run: |
         /opt/python/${{ matrix.python-version }}/bin/python setup.py build
+        
     - name: Packaging
       run: |
         /opt/python/${{ matrix.python-version }}/bin/python setup.py bdist_wheel
@@ -85,6 +86,7 @@ jobs:
           ${{ env.img }} \
           bash -exc '${{ env.py }} -m pip install virtualenv && ${{ env.py }} -m venv .env && \
           source .env/bin/activate && \
+          yum install pkgconfig && \
           /opt/python/${{ matrix.python-version }}/bin/python setup.py build && \
           deactivate'
           
