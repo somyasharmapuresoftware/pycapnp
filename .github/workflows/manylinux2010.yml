@@ -24,6 +24,7 @@ jobs:
         ln -s /usr/bin/ninja-build /usr/local/bin/ninja
         /opt/python/${{ matrix.python-version }}/bin/python -m pip install -r requirements.txt
         /opt/python/${{ matrix.python-version }}/bin/python -m pip install auditwheel
+    
     - name: Build pycapnp and install
       env:
         LDFLAGS: -Wl,--no-as-needed -lrt
@@ -70,17 +71,10 @@ jobs:
           /opt/python/${{ matrix.python-version }}/bin/python -m pip install -r requirements.txt && \
           /opt/python/${{ matrix.python-version }}/bin/python -m pip install auditwheel && \
           /opt/python/${{ matrix.python-version }}/bin/python setup.py build && \
+          /opt/python/${{ matrix.python-version }}/bin/python setup.py bdist_wheel && \
+          /opt/python/${{ matrix.python-version }}/bin/python setup.py sdist && \
+          /opt/python/${{ matrix.python-version }}/bin/auditwheel repair dist/*linux_*.whl && \
           deactivate'
           
-      - name: Build pycapnp and install
-        env:
-          LDFLAGS: -Wl,--no-as-needed -lrt
-        run: |
-          /opt/python/${{ matrix.python-version }}/bin/python setup.py build
-          docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
-          ${{ env.img }} \
-          bash -exc '\
-          source .env/bin/activate && \
-          /opt/python/${{ matrix.python-version }}/bin/python setup.py build && \
-          deactivate'
+
           
