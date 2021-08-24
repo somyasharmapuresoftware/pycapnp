@@ -72,8 +72,6 @@ jobs:
           /opt/python/${{ matrix.python-version }}/bin/python -m pip install auditwheel && \
           /opt/python/${{ matrix.python-version }}/bin/python setup.py build && \
           /opt/python/${{ matrix.python-version }}/bin/python setup.py bdist_wheel && \
-          /opt/python/${{ matrix.python-version }}/bin/python setup.py sdist && \
-          /opt/python/${{ matrix.python-version }}/bin/auditwheel repair dist/*linux_*.whl && \
           deactivate'
           
 
