@@ -72,7 +72,8 @@ jobs:
           tar -xvf cmake-3.20.5-linux-aarch64.tar.gz && \
           wget https://github.com/ninja-build/ninja/archive/v1.7.2.tar.gz && \
           tar -xvf v1.7.2.tar.gz && \
-          file /cmake-3.20.5-linux-aarch64/bin/cmake
+          pwd && \
+          file /cmake-3.20.5-linux-aarch64/bin/cmake && \
           ln -sf /cmake-3.20.5-linux-aarch64/bin/cmake /usr/local/bin/cmake && \
           ln -s /usr/bin/ninja-1.7.2 /usr/local/bin/ninja && \
           /opt/python/${{ matrix.python-version }}/bin/python -m pip install -r requirements.txt && \
