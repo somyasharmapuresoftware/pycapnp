@@ -87,7 +87,6 @@ jobs:
           ${{ env.img }} \
           bash -exc '${{ env.py }} && \
           source .env/bin/activate && \
-          /opt/python/${{ matrix.python-version }}/bin/python setup.py build && \
           deactivate'
           
       - name: Packaging
