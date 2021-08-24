@@ -72,21 +72,12 @@ jobs:
           tar -xvf cmake-3.20.5-linux-aarch64.tar.gz && \
           wget https://github.com/ninja-build/ninja/archive/v1.7.2.tar.gz && \
           tar -xvf v1.7.2.tar.gz && \
-          ln -sf /usr/bin/cmake3 /usr/local/bin/cmake && \
-          ln -s /usr/bin/ninja-build /usr/local/bin/ninja && \
+          ln -sf /usr/bin/cmake-3.20.5-linux-aarch64 /usr/local/bin/cmake && \
+          ln -s /usr/bin/ninja-1.7.2 /usr/local/bin/ninja && \
           /opt/python/${{ matrix.python-version }}/bin/python -m pip install -r requirements.txt && \
           /opt/python/${{ matrix.python-version }}/bin/python -m pip install auditwheel && \
           /opt/python/${{ matrix.python-version }}/bin/python -m pip install pkgconfig && \
           deactivate'
           
-      - name: Build pycapnp and install
-        env:
-          LDFLAGS: -Wl,--no-as-needed -lrt
-        run: |
-          docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
-          ${{ env.img }} \
-          bash -exc '\
-          source .env/bin/activate && \
-          /opt/python/${{ matrix.python-version }}/bin/python setup.py build && \
-          deactivate'
+
     
