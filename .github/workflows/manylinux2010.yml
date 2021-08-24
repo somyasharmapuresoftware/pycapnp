@@ -78,9 +78,15 @@ jobs:
           /opt/python/${{ matrix.python-version }}/bin/python -m pip install auditwheel && \
           /opt/python/${{ matrix.python-version }}/bin/python -m pip install pkgconfig && \
           deactivate'
-    
-
           
-
-        
-      
+      - name: Build pycapnp and install
+        env:
+          LDFLAGS: -Wl,--no-as-needed -lrt
+        run: |
+          docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
+          ${{ env.img }} \
+          bash -exc '\
+          source .env/bin/activate && \
+          /opt/python/${{ matrix.python-version }}/bin/python setup.py build && \
+          deactivate'
+    
