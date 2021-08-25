@@ -41,12 +41,10 @@ jobs:
       strategy:
             matrix:
               python-version: ['cp37-cp37m', 'cp38-cp38', 'cp39-cp39']
-              arch: [aarch64]
       env:
         py: /opt/python/${{ matrix.python-version }}/bin/python
-        img: quay.io/pypa/manylinux2014_${{ matrix.arch }}
+        img: quay.io/pypa/manylinux2014_aarch64
       steps:
-    # NOTE: Cannot use checkout@v2 as it requires a newer version glibc, but that's not possible with manylinux without a secondary sysroot
       - uses: actions/checkout@v1
       - name: Set up QEMU
         id: qemu
@@ -55,15 +53,14 @@ jobs:
         run: |
           docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
           ${{ env.img }} \
-          bash -exc '${{ env.py }} -m pip install virtualenv && ${{ env.py }} -m venv .env && \
+          bash -exc '${{ env.py }} -m venv .env && \
           source .env/bin/activate && \
-          yum update && \
-          /opt/python/${{ matrix.python-version }}/bin/python -m pip install -r requirements.txt && \
-          /opt/python/${{ matrix.python-version }}/bin/python -m pip install auditwheel && \
-          /opt/python/${{ matrix.python-version }}/bin/python setup.py build && \
-          /opt/python/${{ matrix.python-version }}/bin/python setup.py bdist_wheel && \
-          /opt/python/${{ matrix.python-version }}/bin/python setup.py sdist && \
-          /opt/python/${{ matrix.python-version }}/bin/auditwheel repair dist/*linux_*.whl && \
+          python -m pip install -r requirements.txt && \
+          python -m pip install auditwheel && \
+          python setup.py build && \
+          python setup.py bdist_wheel && \
+          python setup.py sdist && \
+          auditwheel repair dist/*linux_*.whl && \
           deactivate'
       - uses: actions/upload-artifact@v1.0.0
         with:
