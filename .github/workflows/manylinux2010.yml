@@ -7,9 +7,8 @@ jobs:
     container: ${{ matrix.container-image }}
     strategy:
       matrix:
-        python-version: ['cp37-cp37m', 'cp38-cp38', 'cp39-cp39']
-        container-image: ['quay.io/pypa/manylinux2010_i686', 'quay.io/pypa/manylinux2010_x86_64']
-      fail-fast: false
+          python-version: ['cp37-cp37m', 'cp38-cp38', 'cp39-cp39']
+          container-image: ['quay.io/pypa/manylinux2010_x86_64', 'quay.io/pypa/manylinux2010_i686']
     steps:
     # NOTE: Cannot use checkout@v2 as it requires a newer version glibc, but that's not possible with manylinux without a secondary sysroot
     - uses: actions/checkout@v1
@@ -40,8 +39,9 @@ jobs:
       runs-on: ubuntu-latest
       container: ${{ matrix.container-image }}
       strategy:
-            matrix:
-              python-version: ['cp37-cp37m', 'cp38-cp38', 'cp39-cp39']
+        matrix:
+          python-version: ['cp37-cp37m', 'cp38-cp38', 'cp39-cp39']
+        fail-fast: false
       env:
         py: /opt/python/${{ matrix.python-version }}/bin/python
         img: quay.io/pypa/manylinux2014_aarch64
@@ -68,5 +68,5 @@ jobs:
           deactivate'
       - uses: actions/upload-artifact@v1.0.0
         with:
-          name: manylinux2010_dist
+          name: manylinux2014_dist
           path: wheelhouse
